@@ -1,5 +1,6 @@
 package delpiano.webapp.projecttool.services;
 
+import delpiano.webapp.projecttool.exceptions.ProjectIdException;
 import delpiano.webapp.projecttool.models.Project;
 import delpiano.webapp.projecttool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,14 @@ public class ProjectService {
   private ProjectRepository projectRepository;
 
   public Project saveOrUpdateProject(Project project){
-    return projectRepository.save(project);
+    // checks if the project already exists in the database
+    try {
+      //setting the identifier to uppercase before saving it
+      project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+      return projectRepository.save(project);
+    }catch (Exception e){
+      // throws the custom exception if the project already exists
+      throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
+    }
   }
-
-
 }
