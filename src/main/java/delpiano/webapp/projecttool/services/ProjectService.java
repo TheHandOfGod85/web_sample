@@ -30,7 +30,10 @@ public class ProjectService {
       throw new ProjectIdException("Project ID  '"+projectId+"' does not exists");
     }
     return project;
-
+  }
+// find all projects into the database if any
+  public Iterable<Project> findAllProjects(){
+    return projectRepository.findAll();
   }
 
 
