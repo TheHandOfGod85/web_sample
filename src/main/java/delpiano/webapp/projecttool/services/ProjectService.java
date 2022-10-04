@@ -11,7 +11,7 @@ public class ProjectService {
 
   @Autowired
   private ProjectRepository projectRepository;
-
+   // save or update a project
   public Project saveOrUpdateProject(Project project){
     // checks if the project already exists in the database
     try {
@@ -23,4 +23,16 @@ public class ProjectService {
       throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
     }
   }
+  // find a project by identifier
+  public Project findProjectByIdentifier(String projectId){
+    Project project =  projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+    if (project == null){
+      throw new ProjectIdException("Project ID  '"+projectId+"' does not exists");
+    }
+    return project;
+
+  }
+
+
+
 }
